@@ -22,12 +22,10 @@ class YmcaSyncCommands extends DrushCommands {
    * Command for run ymca syncers.
    *
    * @param string $syncer
-   *   Argument description.
+   *   Name of syncer, you can find syncer by run yn-sync:list.
    * @param array $options
    *   An associative array of options for syncers.
    *
-   * @option option-name
-   *   Description
    * @usage yn-sync syncer.name
    *   Usage description
    *
