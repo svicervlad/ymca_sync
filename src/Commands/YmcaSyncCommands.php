@@ -66,4 +66,69 @@ class YmcaSyncCommands extends DrushCommands {
     return new RowsOfFields($result);
   }
 
+  /**
+   * Enable YMCA Syncer.
+   *
+   * @param string $syncer
+   *   Name of syncer, you can find syncer by run yn-sync:list.
+   * @usage yn-sync:enable
+   *   Return list of availible syncers
+   *
+   * @command yn-sync:enable
+   * @aliases yn-sync:enable,yn-sync:en
+   */
+  public function enable($syncer) {
+    /** @var \Drupal\Core\Config\ConfigFactory $configFactory */
+    $configFactory = \Drupal::service('config.factory');
+    $config = $configFactory->getEditable('ymca_sync.settings');
+    $activeSyncers = $config->get('active_syncers');
+    $syncers = \Drupal::service('ymca_sync.sync_repository')->getSyncers();
+    if (in_array($syncer, $activeSyncers)) {
+      $this->logger()->info(sprintf('Syncer %s already activated.', $syncer));
+      return;
+    }
+    if (!in_array($syncer, $syncers)) {
+      $this->logger()->info(sprintf('Syncer %s not exist. Please run yn-syn:list to see availible syncers.', $syncer));
+      return;
+    }
+    $activeSyncers[] = $syncer;
+    $config->set('active_syncers', $activeSyncers);
+    $config->save();
+    $configFactory->reset('ymca_sync.settings');
+    $this->logger()->info(sprintf('Syncer %s activated.', $syncer));
+  }
+
+  /**
+   * Disable YMCA Syncer.
+   *
+   * @param string $syncer
+   *   Name of syncer, you can find syncer by run yn-sync:list.
+   * @usage yn-sync:disable
+   *   Return list of availible syncers
+   *
+   * @command yn-sync:disable
+   * @aliases yn-sync:disable,yn-sync:dis
+   */
+  public function disable($syncer) {
+    /** @var \Drupal\Core\Config\ConfigFactory $configFactory */
+    $configFactory = \Drupal::service('config.factory');
+    $config = $configFactory->getEditable('ymca_sync.settings');
+    $activeSyncers = $config->get('active_syncers');
+    $syncers = \Drupal::service('ymca_sync.sync_repository')->getSyncers();
+    if (!in_array($syncer, $syncers)) {
+      $this->logger()->info(sprintf('Syncer %s not exist. Please run yn-sync:list to see availible syncers.', $syncer));
+      return;
+    }
+    if (!in_array($syncer, $activeSyncers)) {
+      $this->logger()->info(sprintf('Syncer %s already disable.', $syncer));
+      return;
+    }
+    $syncerToDisable = [$syncer];
+    $activeSyncers = array_diff($activeSyncers, $syncerToDisable);
+    $config->set('active_syncers', $activeSyncers);
+    $config->save();
+    $configFactory->reset('ymca_sync.settings');
+    $this->logger()->info(sprintf('Syncer %s disabled.', $syncer));
+  }
+
 }
