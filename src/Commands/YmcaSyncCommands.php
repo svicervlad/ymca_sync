@@ -59,7 +59,7 @@ class YmcaSyncCommands extends DrushCommands {
     $result = [];
     foreach ($syncers as $syncer) {
       $result[] = [
-        'active' => in_array($syncer, $activeSyncers) ? 'active' : 'disable',
+        'active' => in_array($syncer, $activeSyncers) ? 'active' : 'disabled',
         'syncer' => $syncer,
       ];
     }
