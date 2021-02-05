@@ -57,6 +57,9 @@ class YmcaSyncCommands extends DrushCommands {
     $activeSyncers = $configFactory->get('ymca_sync.settings')->get('active_syncers');
     $syncers = \Drupal::service('ymca_sync.sync_repository')->getSyncers();
     $result = [];
+    if (!$activeSyncers) {
+      return new RowsOfFields($result);
+    }
     foreach ($syncers as $syncer) {
       $result[] = [
         'active' => in_array($syncer, $activeSyncers) ? 'active' : 'disabled',
