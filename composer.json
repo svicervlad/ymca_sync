@@ -6,6 +6,14 @@
         {
             "name": "Andrii Podanenko",
             "email": "podarokua@gmail.com"
+        },
+        {
+            "name": "Vlad Satretdinov",
+            "email": "vlad.sadretdinov@jet.dev"
+        },
+        {
+            "name": "Dima Danylevskyi",
+            "email": "dima.danylevskyi@jet.dev"
         }
     ],
     "minimum-stability": "dev",
