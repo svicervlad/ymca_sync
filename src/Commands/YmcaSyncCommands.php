@@ -87,7 +87,7 @@ class YmcaSyncCommands extends DrushCommands {
     $activeSyncers = $config->get('active_syncers');
     $syncers = \Drupal::service('ymca_sync.sync_repository')->getSyncers();
     if (in_array($syncer, $activeSyncers)) {
-      $this->logger()->info(sprintf('Syncer %s already activated.', $syncer));
+      $this->logger()->info(sprintf('Syncer %s is already activated.', $syncer));
       return;
     }
     if (!in_array($syncer, $syncers)) {
@@ -98,7 +98,7 @@ class YmcaSyncCommands extends DrushCommands {
     $config->set('active_syncers', $activeSyncers);
     $config->save();
     $configFactory->reset('ymca_sync.settings');
-    $this->logger()->info(sprintf('Syncer %s activated.', $syncer));
+    $this->logger()->info(sprintf('Syncer %s has been activated.', $syncer));
   }
 
   /**
@@ -123,7 +123,7 @@ class YmcaSyncCommands extends DrushCommands {
       return;
     }
     if (!in_array($syncer, $activeSyncers)) {
-      $this->logger()->info(sprintf('Syncer %s already disable.', $syncer));
+      $this->logger()->info(sprintf('Syncer %s is already disabled.', $syncer));
       return;
     }
     $syncerToDisable = [$syncer];
@@ -131,7 +131,7 @@ class YmcaSyncCommands extends DrushCommands {
     $config->set('active_syncers', $activeSyncers);
     $config->save();
     $configFactory->reset('ymca_sync.settings');
-    $this->logger()->info(sprintf('Syncer %s disabled.', $syncer));
+    $this->logger()->info(sprintf('Syncer %s has been disabled.', $syncer));
   }
 
 }
